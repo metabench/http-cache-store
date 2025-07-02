@@ -65,7 +65,7 @@ test('Storage pipeline integration', { concurrency: 1 }, async (t) => {
                 status_code: 200
             };
             
-            await backend.storeResponse(textResponse);
+            await backend.store_response(textResponse);
             
             // 2. Store a JSON response
             const jsonResponse = {
@@ -76,7 +76,7 @@ test('Storage pipeline integration', { concurrency: 1 }, async (t) => {
                 status_code: 200
             };
             
-            await backend.storeResponse(jsonResponse);
+            await backend.store_response(jsonResponse);
             
             // 3. Store a binary response
             const binaryResponse = {
@@ -87,20 +87,20 @@ test('Storage pipeline integration', { concurrency: 1 }, async (t) => {
                 status_code: 200
             };
             
-            await backend.storeResponse(binaryResponse);
+            await backend.store_response(binaryResponse);
             
             // 4. Retrieve the stored responses
-            const cachedText = await backend.getCachedResponse({
+            const cachedText = await backend.get_cached_response({
                 method: 'GET',
                 url: 'https://example.com/text'
             });
             
-            const cachedJson = await backend.getCachedResponse({
+            const cachedJson = await backend.get_cached_response({
                 method: 'GET',
                 url: 'https://example.com/api'
             });
             
-            const cachedBinary = await backend.getCachedResponse({
+            const cachedBinary = await backend.get_cached_response({
                 method: 'GET',
                 url: 'https://example.com/binary'
             });
@@ -134,7 +134,7 @@ test('Storage pipeline integration', { concurrency: 1 }, async (t) => {
             );
             
             // 8. Test cache miss
-            const notCached = await backend.getCachedResponse({
+            const notCached = await backend.get_cached_response({
                 method: 'GET',
                 url: 'https://example.com/not-cached'
             });
@@ -142,12 +142,12 @@ test('Storage pipeline integration', { concurrency: 1 }, async (t) => {
             assert.strictEqual(notCached, null, 'Non-existent URL should return null');
             
             // 9. Test cache deletion
-            await backend.deleteCachedResponse({
+            await backend.delete_cached_response({
                 method: 'GET',
                 url: 'https://example.com/text'
             });
             
-            const deletedResponse = await backend.getCachedResponse({
+            const deletedResponse = await backend.get_cached_response({
                 method: 'GET',
                 url: 'https://example.com/text'
             });
@@ -182,10 +182,10 @@ test('Storage pipeline integration', { concurrency: 1 }, async (t) => {
                 status_code: 201
             };
             
-            await backend.storeResponse(postData);
+            await backend.store_response(postData);
             
             // Retrieve it
-            const cached = await backend.getCachedResponse({
+            const cached = await backend.get_cached_response({
                 method: 'POST',
                 url: 'https://example.com/api/submit'
             });

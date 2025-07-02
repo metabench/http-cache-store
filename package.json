@@ -4,11 +4,11 @@
   "description": "Caches and stores HTTP(S) requests and responses",
   "main": "index.js",
   "dependencies": {
-    "electron": "35.1.2",
-    "lang-mini": "0.0.39",
-    "jsgui3-server":"^0.0.124",
-    "jsgui3-client": "0.0.113",
-    "jsgui3-html": "0.0.160",
+    "electron": "37.2.0",
+    "lang-mini": "0.0.40",
+    "jsgui3-server":"^0.0.129",
+    "jsgui3-client": "0.0.118",
+    "jsgui3-html": "0.0.164",
     "sqlite3": "5.1.7",
     "@peculiar/webcrypto": "^1.5.0"
   },

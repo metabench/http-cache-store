@@ -35,7 +35,7 @@ describe('Backend Tests', { concurrency: 1 }, async () => {
         await dbAdapter.connect();
 
         // Set up schema for cache entries and bodies
-        await dbAdapter.initSchema();
+        await dbAdapter.init_schema();
         
         const storageAdapter = new HTTP_Cache_Store_Storage_Adapter({
             db_adapter: dbAdapter,
@@ -102,7 +102,7 @@ describe('Backend Tests', { concurrency: 1 }, async () => {
         
         try {
             // Store a few items
-            await backend.storeResponse({
+            await backend.store_response({
                 method: 'GET',
                 url: 'https://example.com/page1',
                 headers: { 'content-type': 'text/html' },
@@ -110,7 +110,7 @@ describe('Backend Tests', { concurrency: 1 }, async () => {
                 status_code: 200
             });
             
-            await backend.storeResponse({
+            await backend.store_response({
                 method: 'GET',
                 url: 'https://example.com/page2',
                 headers: { 'content-type': 'text/html' },
@@ -119,12 +119,12 @@ describe('Backend Tests', { concurrency: 1 }, async () => {
             });
             
             // Verify responses exist instead of relying on count methods
-            const response1 = await backend.getCachedResponse({
+            const response1 = await backend.get_cached_response({
                 method: 'GET',
                 url: 'https://example.com/page1'
             });
             
-            const response2 = await backend.getCachedResponse({
+            const response2 = await backend.get_cached_response({
                 method: 'GET',
                 url: 'https://example.com/page2'
             });
@@ -149,7 +149,7 @@ describe('Backend Tests', { concurrency: 1 }, async () => {
         
         try {
             // Store items
-            await backend.storeResponse({
+            await backend.store_response({
                 method: 'GET',
                 url: 'https://example.com/page1',
                 headers: { 'content-type': 'text/html' },
@@ -157,7 +157,7 @@ describe('Backend Tests', { concurrency: 1 }, async () => {
                 status_code: 200
             });
             
-            await backend.storeResponse({
+            await backend.store_response({
                 method: 'GET',
                 url: 'https://example.com/page2',
                 headers: { 'content-type': 'text/html' },
@@ -166,7 +166,7 @@ describe('Backend Tests', { concurrency: 1 }, async () => {
             });
             
             // Verify functionality through retrieval and deletion
-            const response1 = await backend.getCachedResponse({
+            const response1 = await backend.get_cached_response({
                 method: 'GET',
                 url: 'https://example.com/page1'
             });
@@ -179,12 +179,12 @@ describe('Backend Tests', { concurrency: 1 }, async () => {
             );
             
             // Test deletion works
-            await backend.deleteCachedResponse({
+            await backend.delete_cached_response({
                 method: 'GET',
                 url: 'https://example.com/page1'
             });
             
-            const deletedResponse = await backend.getCachedResponse({
+            const deletedResponse = await backend.get_cached_response({
                 method: 'GET',
                 url: 'https://example.com/page1'
             });
@@ -192,7 +192,7 @@ describe('Backend Tests', { concurrency: 1 }, async () => {
             assert(deletedResponse === null, 'Deleted response should not be retrievable');
             
             // Second response should still be available
-            const response2 = await backend.getCachedResponse({
+            const response2 = await backend.get_cached_response({
                 method: 'GET',
                 url: 'https://example.com/page2'
             });

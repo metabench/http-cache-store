@@ -285,6 +285,8 @@ class HTTP_Cache_Store_Storage_Adapter extends Evented_Class {
         }
         
         if (!request_details?.method || !request_details?.url) {
+            console.log('request_details?.method', request_details?.method);
+            console.log('request_details?.url', request_details?.url);
             throw new Error('Required fields missing: method, url');
         }
         
@@ -504,6 +506,42 @@ class HTTP_Cache_Store_Storage_Adapter extends Evented_Class {
             return count;
         } catch (error) {
             this.raise_event('error', { operation: 'count_responses', error });
+            throw error;
+        }
+    }
+
+    /**
+     * Count cache entries that match a given URL
+     * @param {string} url - The URL to match against
+     * @returns {Promise<number>} Number of matching cache entries
+     */
+    async count_cache_entries_by_url(url) {
+        if (!this.db_adapter.is_connected) {
+            await this.init();
+        }
+        
+        try {
+            return await this.db_adapter.count_cache_entries_by_url(url);
+        } catch (error) {
+            this.raise_event('error', { operation: 'count_cache_entries_by_url', error });
+            throw error;
+        }
+    }
+    
+    /**
+     * Get stored_at timestamps for cache entries matching a URL
+     * @param {string} url - The URL to match against
+     * @returns {Promise<Array<number>>} Array of timestamps
+     */
+    async get_cache_entry_stored_at_timestamps_by_url(url) {
+        if (!this.db_adapter.is_connected) {
+            await this.init();
+        }
+        
+        try {
+            return await this.db_adapter.get_cache_entry_stored_at_timestamps_by_url(url);
+        } catch (error) {
+            this.raise_event('error', { operation: 'get_cache_entry_stored_at_timestamps_by_url', error });
             throw error;
         }
     }

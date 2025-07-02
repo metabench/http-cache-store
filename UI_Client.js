@@ -180,21 +180,29 @@ class Demo_UI extends Active_HTML_Document {
 
             // Then how to arrange them...?
 
-            const window = new controls.Window({
+            const browser_window = new controls.Window({
                 context: context,
                 title: 'Web Cache',
-                pos: [10, 10],
+                pos: [440, 10],
                 size: [1024, 768],
             })
-            this.body.add(window);
+            this.body.add(browser_window);
 
             const url_bar = new URL_Bar({
                 context
             });
-            window.inner.add(url_bar);
+            browser_window.inner.add(url_bar);
 
             // And add an address bar for the window.
             //   Maybe want a lower level URL / address bar control.
+
+            const urls_window = new controls.Window({
+                context: context,
+                title: 'URLs',
+                pos: [10, 10],
+                size: [420, 840],
+            })
+            this.body.add(urls_window);
 
         }
         if (!spec.el) {

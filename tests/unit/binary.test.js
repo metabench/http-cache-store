@@ -12,7 +12,7 @@ test('Binary data handling', async (t) => {
             verbose: false // Set to true to enable detailed logs
         });
         await adapter.connect();
-        await adapter.initSchema();
+        await adapter.init_schema();
 
         await t.test('Stores binary data in the database', async () => {
             const hash = Buffer.from([1, 2, 3]);

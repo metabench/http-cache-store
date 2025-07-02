@@ -33,7 +33,7 @@ async function main() {
 
   try {
     // Store a simple GET response
-    await backend.storeResponse({
+    await backend.store_response({
       method: 'GET',
       url: 'https://example.com/api/data',
       headers: { 'content-type': 'application/json' },
@@ -42,7 +42,7 @@ async function main() {
     });
 
     // Store a POST request with a request body
-    await backend.storeResponse({
+    await backend.store_response({
       method: 'POST',
       url: 'https://example.com/api/submit',
       headers: { 
@@ -55,7 +55,7 @@ async function main() {
     });
 
     // Retrieve a cached response
-    const cachedResponse = await backend.getCachedResponse({
+    const cachedResponse = await backend.get_cached_response({
       method: 'GET',
       url: 'https://example.com/api/data'
     });
@@ -69,8 +69,8 @@ async function main() {
     }
     
     // Get cache statistics
-    const fileCount = await backend.countFiles();
-    const responseCount = await backend.countResponses();
+    const fileCount = await backend.count_files();
+    const responseCount = await backend.count_responses();
     console.log(`Cache contains ${fileCount} files, including ${responseCount} responses`);
   } finally {
     // Always properly shutdown to close database connections

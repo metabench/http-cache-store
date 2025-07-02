@@ -217,6 +217,24 @@ class HTTP_Cache_Store_DB_Adapter extends Evented_Class {
     async delete_body(hash) {
         throw new Error("delete_body() must be implemented by a subclass");
     }
+
+    /**
+     * Count cache entries that match a given URL
+     * @param {string} url - The URL to match against
+     * @returns {Promise<number>} Number of matching cache entries
+     */
+    async count_cache_entries_by_url(url) {
+        throw new Error("count_cache_entries_by_url() must be implemented by a subclass");
+    }
+    
+    /**
+     * Get stored_at timestamps for cache entries matching a URL
+     * @param {string} url - The URL to match against
+     * @returns {Promise<Array<number>>} Array of timestamps
+     */
+    async get_cache_entry_stored_at_timestamps_by_url(url) {
+        throw new Error("get_cache_entry_stored_at_timestamps_by_url() must be implemented by a subclass");
+    }
 }
 
 module.exports = HTTP_Cache_Store_DB_Adapter;

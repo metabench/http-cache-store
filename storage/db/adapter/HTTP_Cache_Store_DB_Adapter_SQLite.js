@@ -35,7 +35,7 @@ class HTTP_Cache_Store_DB_Adapter_SQLite extends HTTP_Cache_Store_DB_Adapter {
             });
 
             // Initialize schema
-            await this.initSchema();
+            await this.init_schema();
             
             this.is_connected = true;
             this.raise_event('connected');
@@ -45,7 +45,7 @@ class HTTP_Cache_Store_DB_Adapter_SQLite extends HTTP_Cache_Store_DB_Adapter {
         }
     }
 
-    async initSchema() {
+    async init_schema() {
         const schema = `
             -- Create the cache_entries table
             CREATE TABLE IF NOT EXISTS cache_entries (
@@ -788,6 +788,68 @@ class HTTP_Cache_Store_DB_Adapter_SQLite extends HTTP_Cache_Store_DB_Adapter {
             throw error;
         }
     }
+
+    /**
+     * Count cache entries that match a given URL
+     * @param {string} url - The URL to match against
+     * @returns {Promise<number>} Number of matching cache entries
+     */
+    async count_cache_entries_by_url(url) {
+        if (!this.is_connected) throw new Error('Database not connected');
+        
+        const query = `SELECT COUNT(*) as count FROM cache_entries WHERE request_url = ?`;
+        
+        try {
+            const result = await new Promise((resolve, reject) => {
+                this.db.get(query, [url], (err, row) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(row);
+                    }
+                });
+            });
+            
+            this.log(`SQLite: Found ${result?.count || 0} cache entries matching URL: ${url}`);
+            return result?.count || 0;
+        } catch (error) {
+            this.log("SQLite count cache entries by URL error:", error);
+            throw error;
+        }
+    }
+    
+    /**
+     * Get stored_at timestamps for cache entries matching a URL
+     * @param {string} url - The URL to match against
+     * @returns {Promise<Array<number>>} Array of timestamps
+     */
+    async get_cache_entry_stored_at_timestamps_by_url(url) {
+        if (!this.is_connected) throw new Error('Database not connected');
+        
+        const query = `SELECT stored_at FROM cache_entries WHERE request_url = ? ORDER BY stored_at DESC`;
+        
+        try {
+            const rows = await new Promise((resolve, reject) => {
+                this.db.all(query, [url], (err, rows) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(rows);
+                    }
+                });
+            });
+            
+            // Extract the stored_at timestamps from the rows
+            const timestamps = rows.map(row => row.stored_at);
+            
+            this.log(`SQLite: Found ${timestamps.length} timestamps for URL: ${url}`);
+            return timestamps;
+        } catch (error) {
+            this.log("SQLite get timestamps by URL error:", error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = HTTP_Cache_Store_DB_Adapter_SQLite;

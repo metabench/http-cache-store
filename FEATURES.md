@@ -28,6 +28,9 @@ This document lists the features implemented in the HTTP Cache Store system.
 | Hash-based cache lookup | ✅ |
 | Content retrieval | ✅ |
 | Response header retrieval | ✅ |
+| **URL Operations** | |
+| Count cache entries by URL | ✅ |
+| Get timestamps for URL cache history | ✅ |
 | **File Handling** | |
 | Binary file handling | ✅ |
 | Content-type recognition | ✅ |
@@ -68,6 +71,7 @@ This document lists the features implemented in the HTTP Cache Store system.
 | Compression tests | ✅ |
 | Storage adapter tests | ✅ |
 | File tests | ✅ |
+| URL operations tests | ✅ |
 | **User Interface** | |
 | Backend UI interface | ✅ |
 | URL bar | ✅ |
